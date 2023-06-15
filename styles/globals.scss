@@ -1,0 +1,38 @@
+// 计算pc端vw
+@function vw($px){
+    @return ($px/1920) * 100vw;
+}
+// 计算移动端端vwm
+@function vwm($px){
+    @return ($px/375) * 100vw;
+}
+// 移动端
+@mixin mobile{
+    @media screen and (max-width: 767px) {
+        @content;
+    }
+}
+// pc端
+@mixin pc {
+    @media screen and (min-width: 767px) {
+        @content;
+    }
+}
+
+// pc转换vw
+@mixin transformPixel($field, $pc, $mobile: 0) {
+    @if unit($pc) == "%"{
+        #{$field}: $pc;
+    }
+    @else {
+        #{$field}: vw($pc);
+    }
+    @include mobile {
+        @if unit($pc) == "%"{
+            #{$field}: $mobile;
+        }
+        @else {
+            #{$field}: vwm($mobile);
+        }
+    }
+}
